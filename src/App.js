@@ -9,6 +9,7 @@ import { Navbar } from './components/Navbar';
 import { Container } from 'semantic-ui-react';
 import { Login } from './components/Login';
 import { HomepageLayout } from './components/HomepageLayout';
+import { About } from './components/About';
 const LoginContext = React.createContext(false);
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -49,12 +50,15 @@ function App() {
         <Login onLogin={handleLogin} />
         </Route> }
         <Route path="/about">
-          
+          <About></About>
         </Route>
         <Route path="/clubs">
         <ClubForm onNewClub={club => setClubs(currentClubs => [club, ...currentClubs])}></ClubForm>
         <Clubs clubs={clubs}/>
         </Route>
+        { !isLoggedIn && 
+        <Route path="/">
+        <Login onLogin={handleLogin}/> </Route>}
         <Route path="/">
           <HomepageLayout/>
         </Route> 

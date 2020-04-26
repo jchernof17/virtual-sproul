@@ -55,6 +55,10 @@ export const Login = (updateLogin) => {
     return (
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450 }}>
+        <Header as='h1' style={{ fontSize: '5em', padding:'1em 0em' }} textAlign='center'>
+                {isLoggedIn ? <Redirect to="/" /> : ''}
+            virtual sproul
+            </Header>
         <Form size="large">
             <Header as='h2' color='teal' textAlign='center'>
                 {isLoggedIn ? <Redirect to="/" /> : ''}
