@@ -5,7 +5,7 @@ export const ClubForm = ({onNewClub}) => {
     const [name, setName] = useState('')
     const [purpose, setPurpose] = useState('');
     return (
-        <Grid textAlign='center' style={{ height: '60vh' }} verticalAlign='middle'>
+        <Grid textAlign='center' style={{ height: '40vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450 }}>
         <Form size="large">
         <Header as='h2' color='gray' textAlign='center'>

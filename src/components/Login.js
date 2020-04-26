@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, FormField, Button, Segment, Header, Grid } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom'
 
-export const Login = () => {
+export const Login = (updateLogin) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -37,7 +37,7 @@ export const Login = () => {
             setPassword('');
             setUsername('');
             setHelperText('Login Successfully');
-            setIsLoggedIn(true);
+            updateLogin.onLogin();
         }
         } else {
           setError(true);

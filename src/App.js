@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Switch, Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
 import logo from './logo.svg';
 import 'semantic-ui-css/semantic.min.css'
@@ -9,11 +9,11 @@ import { Navbar } from './components/Navbar';
 import { Container } from 'semantic-ui-react';
 import { Login } from './components/Login';
 import { HomepageLayout } from './components/HomepageLayout';
+const LoginContext = React.createContext(false);
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const [clubs, setClubs] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false);
-
+  const [isLoggedIn, setIsLoggedIn] =useState(false);
   useEffect(() => {
     fetch('/time').then(response =>
       response.json()).then(data => {
@@ -29,19 +29,25 @@ function App() {
         console.log(data);
       }
         );
-  }, [])
-  console.log(clubs)
+  }, []);
+  
+  function handleLogin() {
+    setIsLoggedIn(true);
+    console.log('logged in');
+    //return <Redirect to="/"></Redirect>
+  }
   return (
     <Router>
     <div className="App">
       {/* <header className="App-header">
         <p>The current time is {currentTime}.</p>
       </header> */}
+      <LoginContext.Provider value={isLoggedIn}>
       <Navbar></Navbar>
       <Switch>
-        <Route path="/login">
-        <Login />
-        </Route>
+        { !isLoggedIn && <Route path="/login">
+        <Login onLogin={handleLogin} />
+        </Route> }
         <Route path="/about">
           
         </Route>
@@ -53,6 +59,7 @@ function App() {
           <HomepageLayout/>
         </Route> 
       </Switch>
+      </LoginContext.Provider>
     </div>
     </Router>
   );
