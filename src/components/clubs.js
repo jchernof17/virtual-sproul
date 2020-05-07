@@ -23,7 +23,7 @@ const imageMap = {
         <Grid container stackable verticalAlign='middle' centered>
         <Grid.Row stretched>
         
-        {clubs.map(club => {
+        {clubs && clubs.map(club => {
             console.log(club)
             let id = club.id;
             return (

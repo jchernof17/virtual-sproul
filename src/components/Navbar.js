@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Menu } from 'semantic-ui-react'
 import { Redirect, Link } from 'react-router-dom'
+import { UserContext } from '../UserContext';
 
 
 export const Navbar = () => {
     const [activeItem, setActiveItem] = useState('');
+    const {user, setUser} = useContext(UserContext);
+
     const handleClick = (value) => {
         setActiveItem(value);
         console.log(value);
@@ -20,8 +23,8 @@ export const Navbar = () => {
         <Link to={{pathname: "/about"}}>
         <Menu.Item
           name='aboutUs'
-          active={activeItem === '/about'}
-          onClick={e => handleClick('/about')}
+          active={activeItem === 'about'}
+          onClick={e => handleClick('about')}
         />
         </Link>
         <Link to={{pathname: "/clubs"}}>
@@ -47,6 +50,23 @@ export const Navbar = () => {
           onClick={e => handleClick('profile')}
         />
         </Link>
+        { user ? 
+          <Link to={{pathname: "/logout"}}>
+          <Menu.Item
+            name='logout'
+            active={activeItem === 'logout'}
+            onClick={e => handleClick('logout')}
+          />
+          </Link>
+          :
+          <Link to={{pathname: "/login"}}>
+          <Menu.Item
+            name='login'
+            active={activeItem === 'login'}
+            onClick={e => handleClick('login')}
+          />
+          </Link>
+        }
       </Menu>
     )
 }

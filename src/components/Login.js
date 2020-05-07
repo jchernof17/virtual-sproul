@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Form, Input, FormField, Button, Segment, Header, Grid } from 'semantic-ui-react';
 import { Redirect } from 'react-router-dom'
+import { UserContext } from '../UserContext';
 
-export const Login = (updateLogin) => {
+export const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [helperText, setHelperText] = useState('');
     const [error, setError] = useState(false);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const {user, setUser} = useContext(UserContext);
 
     useEffect(() => {
         if (username.trim() && password.trim()) {
@@ -21,7 +22,7 @@ export const Login = (updateLogin) => {
     const handleLogin = async () => {
         console.log("login clicked")
         let body = {username, password}
-        if (username === 'abc@email.com' || password === 'password') {
+        if (username === '' || password === 'password') {
           setError(false);
           const response = await fetch('/login', {
             method: 'POST',
@@ -30,18 +31,21 @@ export const Login = (updateLogin) => {
             },
             body: JSON.stringify(body)
         })
-
         if (response.ok) {
-            console.log("response worked");
             console.log(response);
             setPassword('');
             setUsername('');
             setHelperText('Login Successfully');
-            updateLogin.onLogin();
+            let lUser = {id:4, name:"Jordan"};
+            setUser(() => lUser);
+            localStorage.setItem('User', JSON.stringify(lUser));
+            console.log(lUser);
+            console.log(user);
         }
         } else {
           setError(true);
           setHelperText('Incorrect username or password');
+          setUser(false);
         }
       };
       const handleKeyPress = (e) => {
@@ -49,19 +53,19 @@ export const Login = (updateLogin) => {
           isButtonDisabled || handleLogin();
         }
       };
-    if (isLoggedIn) {
-        return <Redirect to="/" />
+    if (user) {
+        return (<Redirect to="/" />);
     }
     return (
         <Grid textAlign='center' style={{ height: '100vh' }} verticalAlign='middle'>
         <Grid.Column style={{ maxWidth: 450 }}>
         <Header as='h1' style={{ fontSize: '5em', padding:'1em 0em' }} textAlign='center'>
-                {isLoggedIn ? <Redirect to="/" /> : ''}
+                {user ? <Redirect to="/" /> : ''}
             virtual sproul
             </Header>
         <Form size="large">
             <Header as='h2' color='teal' textAlign='center'>
-                {isLoggedIn ? <Redirect to="/" /> : ''}
+                {user ? <Redirect to="/" /> : ''}
             Log In to your account
             </Header>
             <Segment stacked>
